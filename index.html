@@ -1,0 +1,20 @@
+---
+layout: default
+title: Home
+---
+<div class="gallery">
+{% assign photos = site.data.photos | sort: "date" | reverse %}
+{% for photo in photos %}
+  <a class="gallery-item" href="{{ photo.full | relative_url }}" data-caption="{{ photo.caption }}">
+    <img src="{{ photo.thumb | relative_url }}" alt="{{ photo.caption | default: photo.file }}" loading="lazy">
+  </a>
+{% endfor %}
+</div>
+
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+
+<script src="{{ '/assets/js/gallery.js' | relative_url }}"></script>

@@ -1,0 +1,114 @@
+:root {
+  --bg: #0b0b0c;
+  --fg: #e8e8e8;
+  --muted: #8a8a8a;
+  --accent: #ffffff;
+  --gap: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem 2rem;
+}
+
+.site-title {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+}
+
+main {
+  padding: 0 2px 2rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--gap);
+}
+
+.gallery-item {
+  display: block;
+  overflow: hidden;
+  background: #111;
+  aspect-ratio: 1 / 1;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.04);
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 100;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.lightbox-caption {
+  color: var(--muted);
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding: 2rem;
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}

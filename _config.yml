@@ -1,0 +1,17 @@
+title: PhotoSite
+description: Photography portfolio
+baseurl: ""
+url: ""
+
+github_repo: ""
+github_branch: "main"
+photos_path: "photos"
+
+markdown: kramdown
+plugins:
+  - jekyll-feed
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
