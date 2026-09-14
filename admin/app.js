@@ -213,8 +213,10 @@ uploadBtn.addEventListener("click", async () => {
         )
         .join("\n");
 
-      const combinedYaml = existingYaml.trim().length > 0
-        ? `${existingYaml.trim()}\n${newYamlLines}\n`
+      const trimmedExisting = existingYaml.trim();
+      const hasExistingEntries = trimmedExisting.length > 0 && trimmedExisting !== "[]";
+      const combinedYaml = hasExistingEntries
+        ? `${trimmedExisting}\n${newYamlLines}\n`
         : `${newYamlLines}\n`;
 
       const combinedBase64 = btoa(unescape(encodeURIComponent(combinedYaml)));
