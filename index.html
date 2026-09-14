@@ -7,11 +7,12 @@ title: Home
 <div class="gallery">
 {% assign photos = photos | sort: "date" | reverse %}
 {% for photo in photos %}
-  <a class="gallery-item" href="{{ photo.full | relative_url }}" data-caption="{{ photo.caption }}">
+  <a class="gallery-item" href="{{ photo.full | relative_url }}" data-index="{{ forloop.index0 }}" data-file="{{ photo.file }}" data-caption="{{ photo.caption }}">
     <img src="{{ photo.thumb | relative_url }}" alt="{{ photo.caption | default: photo.file }}" loading="lazy">
   </a>
 {% endfor %}
 </div>
+<p class="photo-count">{{ photos | size }} photo{% unless photos.size == 1 %}s{% endunless %}</p>
 {% else %}
 <div class="empty-state">
   <p>No photos yet. Upload your first one at <a href="{{ '/admin/' | relative_url }}">/admin</a>.</p>
@@ -20,8 +21,16 @@ title: Home
 
 <div class="lightbox" id="lightbox" hidden>
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous photo">&#8249;</button>
+  <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photo">&#8250;</button>
   <img class="lightbox-img" id="lightbox-img" src="" alt="">
-  <p class="lightbox-caption" id="lightbox-caption"></p>
+  <div class="lightbox-meta">
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+    <button class="like-button" id="like-button" aria-pressed="false" aria-label="Like this photo">
+      <span class="like-icon">&#9825;</span>
+      <span class="like-count" id="like-count">0</span>
+    </button>
+  </div>
 </div>
 
 <script src="{{ '/assets/js/gallery.js' | relative_url }}"></script>

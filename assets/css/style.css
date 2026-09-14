@@ -3,11 +3,17 @@
   --fg: #e8e8e8;
   --muted: #8a8a8a;
   --accent: #ffffff;
-  --gap: 4px;
+  --like: #ff4d6d;
+  --border: #232323;
+  --gap: 6px;
 }
 
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -15,29 +21,38 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .site-header {
   display: flex;
   align-items: center;
-  padding: 1.5rem 2rem;
+  justify-content: center;
+  padding: 2rem 1.5rem 1rem;
+  text-align: center;
 }
 
 .site-title {
   color: var(--accent);
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.1rem;
-  letter-spacing: 0.03em;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
 }
 
-main {
-  padding: 0 2px 2rem;
+.site-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
 }
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: var(--gap);
 }
 
@@ -46,6 +61,17 @@ main {
   overflow: hidden;
   background: #111;
   aspect-ratio: 1 / 1;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: fade-in 0.5s ease forwards;
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .gallery-item img {
@@ -56,8 +82,27 @@ main {
   transition: transform 0.3s ease;
 }
 
-.gallery-item:hover img {
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
   transform: scale(1.04);
+}
+
+.photo-count {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 1.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 4rem 1rem;
+  font-size: 0.95rem;
+}
+
+.empty-state a {
+  color: var(--fg);
 }
 
 .lightbox {
@@ -78,37 +123,176 @@ main {
 
 .lightbox-img {
   max-width: 100%;
-  max-height: 80vh;
+  max-height: 78vh;
   object-fit: contain;
+  border-radius: 4px;
+}
+
+.lightbox-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  max-width: 100%;
 }
 
 .lightbox-caption {
   color: var(--muted);
-  margin-top: 1rem;
   font-size: 0.9rem;
+  margin: 0;
+  max-width: 60vw;
+  overflow-wrap: break-word;
 }
 
 .lightbox-close {
   position: absolute;
-  top: 1.5rem;
-  right: 2rem;
+  top: 1.25rem;
+  right: 1.5rem;
   background: none;
   border: none;
   color: var(--fg);
   font-size: 2rem;
   cursor: pointer;
   line-height: 1;
+  padding: 0.5rem;
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: var(--fg);
+  font-size: 2.2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.2s ease;
+}
+
+.lightbox-nav:hover,
+.lightbox-nav:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.lightbox-nav[disabled] {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.lightbox-nav[disabled]:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.lightbox-prev {
+  left: 1rem;
+}
+
+.lightbox-next {
+  right: 1rem;
+}
+
+.like-button {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.like-button:hover {
+  border-color: var(--like);
+  color: var(--fg);
+}
+
+.like-button.liked {
+  color: var(--like);
+  border-color: var(--like);
+}
+
+.like-button.liked .like-icon {
+  animation: like-pop 0.3s ease;
+}
+
+.like-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+@keyframes like-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .site-footer {
   text-align: center;
   color: var(--muted);
   font-size: 0.8rem;
-  padding: 2rem;
+  padding: 2rem 1rem;
 }
 
 @media (max-width: 480px) {
   .gallery {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 4px;
+  }
+
+  .site-title {
+    font-size: 1.1rem;
+  }
+
+  .lightbox {
+    padding: 1rem;
+  }
+
+  .lightbox-nav {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.8rem;
+  }
+
+  .lightbox-prev {
+    left: 0.25rem;
+  }
+
+  .lightbox-next {
+    right: 0.25rem;
+  }
+
+  .lightbox-caption {
+    max-width: 80vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }
