@@ -2,14 +2,21 @@
 layout: default
 title: Home
 ---
+{% assign photos = site.data.photos %}
+{% if photos and photos != empty %}
 <div class="gallery">
-{% assign photos = site.data.photos | sort: "date" | reverse %}
+{% assign photos = photos | sort: "date" | reverse %}
 {% for photo in photos %}
   <a class="gallery-item" href="{{ photo.full | relative_url }}" data-caption="{{ photo.caption }}">
     <img src="{{ photo.thumb | relative_url }}" alt="{{ photo.caption | default: photo.file }}" loading="lazy">
   </a>
 {% endfor %}
 </div>
+{% else %}
+<div class="empty-state">
+  <p>No photos yet. Upload your first one at <a href="{{ '/admin/' | relative_url }}">/admin</a>.</p>
+</div>
+{% endif %}
 
 <div class="lightbox" id="lightbox" hidden>
   <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>

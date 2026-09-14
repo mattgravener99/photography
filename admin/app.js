@@ -108,8 +108,16 @@ filesInput.addEventListener("change", () => {
   uploadBtn.disabled = selected.length === 0;
 });
 
+async function safeFetch(url, options) {
+  try {
+    return await fetch(url, options);
+  } catch (error) {
+    throw new Error(`Network error reaching GitHub API: ${error.message}`);
+  }
+}
+
 async function githubRequest(url, options) {
-  const response = await fetch(url, options);
+  const response = await safeFetch(url, options);
   if (!response.ok) {
     const body = await response.text();
     throw new Error(`GitHub API ${response.status}: ${body}`);
@@ -119,7 +127,7 @@ async function githubRequest(url, options) {
 
 async function getFileSha(repo, branch, path, headers) {
   const url = `https://api.github.com/repos/${repo}/contents/${encodeURIComponent(path)}?ref=${encodeURIComponent(branch)}`;
-  const response = await fetch(url, { headers });
+  const response = await safeFetch(url, { headers });
   if (response.status === 404) return null;
   if (!response.ok) throw new Error(`GitHub API ${response.status}: ${await response.text()}`);
   const data = await response.json();
@@ -229,5 +237,10 @@ uploadBtn.addEventListener("click", async () => {
   }
 
   uploadBtn.disabled = false;
-  log("Done.");
+  const failedCount = selected.length - newEntries.length;
+  if (failedCount > 0) {
+    log(`Done with errors: ${newEntries.length} succeeded, ${failedCount} failed. See messages above.`);
+  } else {
+    log(`Done: ${newEntries.length} photo(s) uploaded successfully.`);
+  }
 });
