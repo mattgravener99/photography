@@ -1,9 +1,9 @@
 title: PhotoSite
 description: Photography portfolio
-baseurl: ""
-url: ""
+baseurl: "/photography"
+url: "https://mattgravener99.github.io"
 
-github_repo: ""
+github_repo: "mattgravener99/photography"
 github_branch: "main"
 photos_path: "photos"
 
