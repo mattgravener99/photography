@@ -80,11 +80,19 @@ function blobToBase64(blob) {
   });
 }
 
+const CATEGORIES = [
+  { slug: "nature", name: "Nature" },
+  { slug: "portraits", name: "Portraits" },
+  { slug: "events", name: "Events" },
+  { slug: "uncategorized", name: "Uncategorized" },
+];
+
 filesInput.addEventListener("change", () => {
   selected = Array.from(filesInput.files).map((file) => ({
     file,
     slug: slugify(file.name),
     caption: "",
+    category: CATEGORIES[0].slug,
   }));
   itemsEl.innerHTML = "";
   selected.forEach((entry, index) => {
@@ -101,8 +109,21 @@ filesInput.addEventListener("change", () => {
       selected[index].caption = captionInput.value;
     });
 
+    const categorySelect = document.createElement("select");
+    CATEGORIES.forEach((category) => {
+      const option = document.createElement("option");
+      option.value = category.slug;
+      option.textContent = category.name;
+      categorySelect.appendChild(option);
+    });
+    categorySelect.value = entry.category;
+    categorySelect.addEventListener("change", () => {
+      selected[index].category = categorySelect.value;
+    });
+
     wrap.appendChild(img);
     wrap.appendChild(captionInput);
+    wrap.appendChild(categorySelect);
     itemsEl.appendChild(wrap);
   });
   uploadBtn.disabled = selected.length === 0;
@@ -194,6 +215,7 @@ uploadBtn.addEventListener("click", async () => {
         full: `/${fullPath}`,
         thumb: `/${thumbPath}`,
         caption: entry.caption,
+        category: entry.category,
         date: new Date().toISOString().slice(0, 10),
       });
     } catch (error) {
@@ -217,7 +239,7 @@ uploadBtn.addEventListener("click", async () => {
       const newYamlLines = newEntries
         .map(
           (entry) =>
-            `- file: ${JSON.stringify(entry.file)}\n  full: ${JSON.stringify(entry.full)}\n  thumb: ${JSON.stringify(entry.thumb)}\n  caption: ${JSON.stringify(entry.caption)}\n  date: ${JSON.stringify(entry.date)}`
+            `- file: ${JSON.stringify(entry.file)}\n  full: ${JSON.stringify(entry.full)}\n  thumb: ${JSON.stringify(entry.thumb)}\n  caption: ${JSON.stringify(entry.caption)}\n  category: ${JSON.stringify(entry.category)}\n  date: ${JSON.stringify(entry.date)}`
         )
         .join("\n");
 

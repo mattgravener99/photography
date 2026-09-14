@@ -28,10 +28,12 @@ body {
 
 .site-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 2rem 1.5rem 1rem;
   text-align: center;
+  gap: 0.75rem;
 }
 
 .site-title {
@@ -42,12 +44,95 @@ body {
   letter-spacing: 0.04em;
 }
 
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--fg);
+}
+
 .site-main {
   flex: 1;
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 1rem 3rem;
+}
+
+.page-title {
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.5rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.category-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem 0 2.5rem;
+}
+
+.category-tile {
+  color: var(--fg);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.category-tile:hover,
+.category-tile:focus-visible {
+  border-color: var(--fg);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.text-page {
+  max-width: 640px;
+  margin: 2rem auto;
+  line-height: 1.7;
+}
+
+.text-page p {
+  color: var(--fg);
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-list a {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.2rem;
+}
+
+.contact-list a:hover,
+.contact-list a:focus-visible {
+  border-color: var(--fg);
 }
 
 .gallery {

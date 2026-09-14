@@ -10,6 +10,13 @@
 <body>
 <header class="site-header">
   <a class="site-title" href="{{ '/' | relative_url }}">Matt G Photography</a>
+  <nav class="site-nav">
+    {% for category in site.data.categories %}
+    <a href="{{ category.slug | prepend: '/' | append: '/' | relative_url }}">{{ category.name }}</a>
+    {% endfor %}
+    <a href="{{ '/about/' | relative_url }}">About</a>
+    <a href="{{ '/contact/' | relative_url }}">Contact</a>
+  </nav>
 </header>
 <main class="site-main">
 {{ content }}
